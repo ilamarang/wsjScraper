@@ -1,0 +1,31 @@
+{
+  "name": "wsjScraper",
+  "version": "1.0.0",
+  "description": "Scrape WSJ.com using Node , Cheerio and Mongo!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilamarang/wsjScraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilamarang/wsjScraper/issues"
+  },
+  "homepage": "https://github.com/ilamarang/wsjScraper#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "md5": "^2.2.1",
+    "mongoose": "^4.11.6",
+    "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0"
+  }
+}
