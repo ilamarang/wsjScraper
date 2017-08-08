@@ -13,5 +13,12 @@ res.render('index');
 
 })
 
+router.get('/articles',function(req,res) {
+  Article.find({},function(err,doc) {
+    res.json(doc);
+
+  })
+
+});
 
 module.exports = router;

@@ -4,6 +4,19 @@ var router = express.Router();
 var request = require("request");
 var cheerio = require("cheerio");
 
+// Requiring our Note and Article models
+var Note = require(".././models/Note.js");
+var Article = require(".././models/Article.js");
+
+router.get('/article', function(req, res){
+  console.log('Hello!')
+  Article.find({},function(err,doc) {
+    res.json(doc);
+
+  })
+
+});
+
 // Get Homepage
 router.get('/scrape', function(req, res){
   // First, we grab the body of the html with request
@@ -21,13 +34,12 @@ var testArray = [];
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
-      result.image = $(this).closest('.wsj-card-feature').find('img').attr('src');
 
-testArray.push(result.image);
+      testArray.push(result.image);
 
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
-      /* var entry = new Article(result);
+      var entry = new Article(result);
 
       // Now, save that entry to the db
       entry.save(function(err, doc) {
@@ -39,7 +51,7 @@ testArray.push(result.image);
         else {
           console.log(doc);
         }
-      }); */
+      });
 
 
     });
@@ -52,6 +64,10 @@ testArray.push(result.image);
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
 });
+
+
+
+
 
 
 

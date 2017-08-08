@@ -52,7 +52,7 @@ db.once("open", function() {
 });
 
 app.use('/', routes);
-app.get('/scrape',scrape);
+app.use('/scrape',scrape);
 
 // Listen on port 3000
 app.listen(PORT, function() {
