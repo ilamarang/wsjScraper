@@ -10,7 +10,9 @@ var Article = require(".././models/Article.js");
 
 router.get('/article', function(req, res){
   console.log('Hello!')
-  Article.find({},function(err,doc) {
+  Article.find({})
+  .limit(20)
+  .exec(function(err,doc) {
     res.json(doc);
 
   })
@@ -18,7 +20,7 @@ router.get('/article', function(req, res){
 });
 
 // Get Homepage
-router.get('/scrape', function(req, res){
+router.get('/', function(req, res){
   // First, we grab the body of the html with request
   request("https://www.wsj.com/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
