@@ -45,10 +45,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
+                        <a class="page-scroll" href="#about">Scraped Articles</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Saved Articles</a>
+                        <a class="page-scroll" href="#savedArticles">Saved Articles</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -67,6 +67,8 @@
                 <hr>
 
                 <input id = "scrapeWSJ" class="btn btn-primary btn-xl page-scroll" value = 'Scrape WSJ'> </input>
+
+                <input id = "displaySavedArticles" class="btn btn-primary btn-xl page-scroll" value = 'Fetch Saved Articles'> </input>
 
             </div>
         </div>
@@ -87,7 +89,18 @@
         </div>
     </section>
 
-  
+    <aside class="bg-dark" id="savedArticles">
+    <div class="container text-center">
+        <div class="call-to-action">
+            <h2>Your Saved Articles! - Read WSJ ambitiously</h2>
+            <hr class="light">
+            <div class= "row" id="savedArticleRow">
+
+            </div>
+        </div>
+    </div>
+  </aside>
+
 
 
 
