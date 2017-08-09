@@ -762,6 +762,6 @@ body {
     color: rgba(53, 50, 50, 0.65);
 }
 
-#saveArticle {
+#saveArticle, .unSaveArticle {
   margin-top: 2em;
 }

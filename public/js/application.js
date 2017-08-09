@@ -1,3 +1,40 @@
+var displaySavedArticles = function() {
+
+  console.log('Hello');
+
+  $.ajax({
+    method: "GET",
+    url: "/savedArticles"
+  })
+  .done(function(doc) {
+    var cardRow = $('#savedArticleRow')
+
+    $('#articleRow').empty();
+    var cardDeck = $('<div class="card-deck">').appendTo(cardRow)
+    doc.forEach(function(article,index){
+      console.log(article);
+      var newCardColumnDiv = $('<div class="col-md-4" id= card' + index+ '>').appendTo(cardDeck);
+      var newCardClassDiv = $('<div class="card card-inverse card-primary text-center">').appendTo(newCardColumnDiv);
+      var newCardBlockDiv = $('<div class="card-block">').appendTo(newCardClassDiv);
+      var newCardTitle = $('<h4 class="card-title"> Saved Article #' + (index + 1) + '</h4>').appendTo(newCardBlockDiv);
+      var newArticleContent = $('<p class="card-text">' + article.title + '</p>').appendTo(newCardBlockDiv);
+
+      var newNoteArticleButton = $('<input class = "addNote btn btn-primary" value = "Add Notes"> </input>').appendTo(newCardBlockDiv);
+      $(newNoteArticleButton).attr('data-articleId',article._id)
+      $(newNoteArticleButton).attr('data-id',index)
+
+      var newRemoveSavedArticleButton = $('<input class = "unSaveArticle btn btn-primary" value = "Delete from Save"> </input>').appendTo(newCardBlockDiv);
+      $(newRemoveSavedArticleButton).attr('data-articleId',article._id);
+      $(newRemoveSavedArticleButton).attr('data-id',index);
+
+    })
+
+    window.scrollTo(0, $("#savedArticles").offset().top);
+
+  })
+
+}
+
 $(document).ready(function(){
 
   var renderArticles = function() {
@@ -78,22 +115,39 @@ $('#scrapeWSJ').on('click',function() {
 
 })
 
+
+
 $('#displaySavedArticles').on('click',function() {
 
-  // Now make an ajax call for the Article
-  console.log('Hello');
+  displaySavedArticles();
 
+});
+
+$('#savedArticleRow').on('click','.unSaveArticle' ,function(){
+
+
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-articleId");
+
+  // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "GET",
-    url: "/savedArticles"
+    url: "/unSaveArticle/" + thisId
   })
-  .done(function(doc) {
+    // With that done
+    .done(function(data) {
+      // Log the response
+      console.log(data);
 
-    console.log(doc)
-  })
+    });
 
+var thisCardId = 'card' + $(this).attr("data-id");
+console.log(thisCardId);
+
+$('#'+thisCardId).fadeOut("slow", function() {
+    // Animation complete.
+});
 })
-
 
 
 })

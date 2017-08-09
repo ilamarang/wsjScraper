@@ -33,6 +33,22 @@ router.get("/saveArticle/:id", function(req, res) {
 });
 
 // Grab an article by it's ObjectId
+router.get("/unSaveArticle/:id", function(req, res) {
+	console.log('Save Article' + req.params.id)
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  Article.update({ "_id": req.params.id },{saved:false}, function(error,doc) {
+		if (error) {
+      console.log(error);
+    }
+		else {
+      res.json(doc);
+    }
+
+	})
+
+});
+
+// Grab an article by it's ObjectId
 router.get("/savedArticles", function(req, res) {
 
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
