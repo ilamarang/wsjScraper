@@ -11,6 +11,12 @@ mongoose.Promise = Promise;
 
 //Set environment variables required for the app
 var PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV === 'production') {
+var MONGODB = "mongodb://heroku_76l9r11f:kio2gu6in6vi2l0san2ck8ib02@ds159180.mlab.com:59180/heroku_76l9r11f";
+}
+else {
+var MONGODB = "mongodb://localhost/hwwsjscrape1";
+}
 
 // Initialize Express
 var app = express();
@@ -38,7 +44,7 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/hwwsjscrape1");
+mongoose.connect(MONGODB);
 var db = mongoose.connection;
 
 // Show any mongoose errors
