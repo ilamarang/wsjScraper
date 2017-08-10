@@ -133,14 +133,18 @@
                 <h1 class="modal-title"> Here are the results! </h1>
              </div>
              {{!-- {{ END modal-header }} --}}
-             <div class="container-fluid">
+             <div class="container-fluid" >
                 {{!-- {{ here is where we need the dynamic data }} --}}
                 <h1 id='scrapeResultText'> </h1>
+                <div id="modalContent">
+
+
+                </div>
 
              </div>
              {{!-- {{ END container-fluid }} --}}
              <div class="modal-footer">
-                <button type="button" class="orange-button" data-dismiss="modal">Close</button>
+                <button id='modalCloseButton' type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
              </div>
              {{!-- {{ END modal-footer }} --}}
           </div>

@@ -765,3 +765,6 @@ body {
 #saveArticle, .unSaveArticle {
   margin-top: 2em;
 }
+#note {
+  margin-bottom: 2em;
+}

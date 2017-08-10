@@ -150,4 +150,33 @@ $('#'+thisCardId).fadeOut("slow", function() {
 })
 
 
+$('#savedArticleRow').on('click','.addNote' ,function(){
+
+  //Reset modal Form.
+  $('#notesAddUpdate').remove();
+
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-articleId");
+
+  // Run a POST request to change the note, using what's entered in the inputs
+
+  $('#scrapeResult').modal('show');
+  $('#scrapeResultText').text('');
+  $('.modal-title').text('Please add Notes!');
+
+  $('#modalContent').empty();
+  var newFormGroup = $('<div class="form-group"> </div>').appendTo($('#modalContent'));
+  var newNoteLabel = $('<label for="note">Add Notes: </label>').appendTo(newFormGroup);
+  var newNoteArea = $('<textarea class="form-control" rows="3" id="note"></textarea>').appendTo(newFormGroup);
+
+  var addButton = $('<input type="button" class="btn btn-primary" value="Add/Update" id="notesAddUpdate"> </input>').appendTo($('.modal-footer'));
+
+  var thisCardId = 'card' + $(this).attr("data-id");
+  console.log(thisCardId);
+
+
+})
+
+
+
 })
