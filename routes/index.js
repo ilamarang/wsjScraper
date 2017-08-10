@@ -3,6 +3,7 @@ var router = express.Router();
 // Requiring our Note and Article models
 var Note = require(".././models/Note.js");
 var Article = require(".././models/Article.js");
+var md5 = require('md5');
 
 // Get Homepage
 router.get('/', function(req, res){
@@ -17,18 +18,37 @@ res.render('index');
 })
 
 // Grab an article by it's ObjectId
-router.get("/saveArticle/:id", function(req, res) {
+router.post("/saveArticle/:id", function(req, res) {
 	console.log('Save Article' + req.params.id)
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-  Article.update({ "_id": req.params.id },{saved:true}, function(error,doc) {
-		if (error) {
-      console.log(error);
-    }
-		else {
-      res.json(doc);
-    }
+	console.log('Over Here');
+	var hashId = req.body.hash;
 
+	Article.findOne({hash:hashId, saved:true}, function(error,doc) {
+
+		console.log('ok DOC HERE')
+		console.log(doc);
+
+		if (doc != null) {
+			console.log('None shall pass');
+			res.status(400);
+			res.send('None shall pass');
+
+		} else {
+
+
+			Article.update({ "_id": req.params.id },{saved:true}, function(error,doc) {
+				if (error) {
+					console.log(error);
+				}
+				else {
+					res.json(doc);
+				}
+
+			})
+		}
 	})
+
 
 });
 

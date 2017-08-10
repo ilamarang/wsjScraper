@@ -3,6 +3,7 @@ var router = express.Router();
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
+var md5 = require('md5');
 
 // Requiring our Note and Article models
 var Note = require(".././models/Note.js");
@@ -13,6 +14,7 @@ router.get('/article', function(req, res){
   Article.find({})
   .limit(20)
   .exec(function(err,doc) {
+    console.log(doc);
     res.json(doc);
 
   })
@@ -36,7 +38,7 @@ var testArray = [];
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
-
+      result.hash = md5($(this).children("a").text());
       testArray.push(result.image);
 
       // Using our Article model, create a new entry

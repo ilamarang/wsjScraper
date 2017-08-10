@@ -1,3 +1,4 @@
+
 var displaySavedArticles = function() {
 
   console.log('Hello');
@@ -5,6 +6,7 @@ var displaySavedArticles = function() {
   $.ajax({
     method: "GET",
     url: "/savedArticles"
+
   })
   .done(function(doc) {
     var cardRow = $('#savedArticleRow')
@@ -60,7 +62,9 @@ $(document).ready(function(){
         $(newArticleLink).attr('href',article.link);
 
         var newSaveArticleButton = $('<input id = "saveArticle" class="btn btn-primary" value = "Save Article"> </input>').appendTo(newCardBlockDiv);
-        $(newSaveArticleButton).attr('data-articleId',article._id)
+        $(newSaveArticleButton).attr('data-articleId',article._id);
+        console.log(article.hash);
+        $(newSaveArticleButton).attr('data-hashId',article.hash);
         $(newSaveArticleButton).attr('data-id',index)
       })
 
@@ -77,8 +81,24 @@ $('#articleRow').on('click','#saveArticle' ,function(){
 
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
-    method: "GET",
-    url: "/saveArticle/" + thisId
+    method: "POST",
+    url: "/saveArticle/" + thisId,
+    data: {
+      // Value taken from title input
+      hash: $(this).attr("data-hashId")
+
+    },
+    error: function(errorMessage) {
+      if(errorMessage.status == 400) {
+        // Empty the notes section
+        $('#modalContent').empty();
+        $('#notesAddUpdate').remove();
+        $('#notesDelete').remove();
+
+        $('#scrapeResult').modal('show');
+        $('#scrapeResultText').text('Article Already Saved to your list!')
+      }
+    }
   })
     // With that done
     .done(function(data) {
@@ -106,6 +126,10 @@ $('#scrapeWSJ').on('click',function() {
     url: "/scrape"
   })
   .done(function(data) {
+    // Empty the notes section
+    $('#modalContent').empty();
+    $('#notesAddUpdate').remove();
+    $('#notesDelete').remove();
 
     $('#scrapeResult').modal('show');
     $('#scrapeResultText').text('WSJ Scraped successfully!')
