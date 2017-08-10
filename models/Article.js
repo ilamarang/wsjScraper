@@ -21,7 +21,8 @@ var ArticleSchema = new Schema({
   },
   hash:{
     type: String,
-    required:true
+    required:true,
+    unique:true
   },
   // This only saves one note's ObjectId, ref refers to the Note model
   note: {

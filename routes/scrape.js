@@ -12,6 +12,7 @@ var Article = require(".././models/Article.js");
 router.get('/article', function(req, res){
   console.log('Hello!')
   Article.find({})
+  .skip(20)
   .limit(20)
   .exec(function(err,doc) {
     console.log(doc);
@@ -34,12 +35,10 @@ var testArray = [];
       // Save an empty result object
       var result = {};
 
-
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
       result.hash = md5($(this).children("a").text());
-      testArray.push(result.image);
 
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
@@ -60,10 +59,6 @@ var testArray = [];
 
     });
 
-    testArray.forEach(function(counter,element){
-      console.log(element);
-      console.log(counter);
-    })
   });
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
