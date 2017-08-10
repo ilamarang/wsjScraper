@@ -149,11 +149,67 @@ $('#'+thisCardId).fadeOut("slow", function() {
 });
 })
 
+$('.modal').on('click','#notesDelete',function() {
+  var thisId = $(this).attr("data-articleid");
+
+  // Run a POST request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: "POST",
+    url: "/deleteArticle/" + thisId,
+    data: {
+      // Value taken from title input
+      title: $("#titleinput").val(),
+      // Value taken from note textarea
+      body: $("#note").val()
+    }
+  })
+    // With that done
+    .done(function(data) {
+      // Log the response
+      console.log(data);
+      // Empty the notes section
+      $('#modalContent').empty();
+      $('#notesAddUpdate').remove();
+      $('#notesDelete').remove();
+      var successMessage = $('<h3> Notes deleted successfully </h3>').appendTo($('#modalContent'));
+    });
+
+})
+
+
+$('.modal').on('click','#notesAddUpdate',function() {
+  var thisId = $(this).attr("data-articleid");
+
+  // Run a POST request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: "POST",
+    url: "/articles/" + thisId,
+    data: {
+      // Value taken from title input
+      title: $("#titleinput").val(),
+      // Value taken from note textarea
+      body: $("#note").val()
+    }
+  })
+    // With that done
+    .done(function(data) {
+      // Log the response
+      console.log(data);
+      // Empty the notes section
+      $('#modalContent').empty();
+      $('#notesAddUpdate').remove();
+      $('#notesDelete').remove();
+      var successMessage = $('<h3> Notes added successfully </h3>').appendTo($('#modalContent'));
+    });
+
+})
+
 
 $('#savedArticleRow').on('click','.addNote' ,function(){
 
   //Reset modal Form.
   $('#notesAddUpdate').remove();
+  $('#notesDelete').remove();
 
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-articleId");
@@ -163,17 +219,38 @@ $('#savedArticleRow').on('click','.addNote' ,function(){
   $('#scrapeResult').modal('show');
   $('#scrapeResultText').text('');
   $('.modal-title').text('Please add Notes!');
-
   $('#modalContent').empty();
+
   var newFormGroup = $('<div class="form-group"> </div>').appendTo($('#modalContent'));
+  var newTitleLabel = $('<label for="title">Add Title: </label>').appendTo(newFormGroup);
+  var newTitleText = $('<input type="text" class="form-control" id="titleinput"></input>').appendTo(newFormGroup);
+
   var newNoteLabel = $('<label for="note">Add Notes: </label>').appendTo(newFormGroup);
   var newNoteArea = $('<textarea class="form-control" rows="3" id="note"></textarea>').appendTo(newFormGroup);
 
   var addButton = $('<input type="button" class="btn btn-primary" value="Add/Update" id="notesAddUpdate"> </input>').appendTo($('.modal-footer'));
-
+  $(addButton).attr('data-articleId',$(this).attr("data-articleId"));
   var thisCardId = 'card' + $(this).attr("data-id");
   console.log(thisCardId);
 
+  // Now make an ajax call for the Article
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + thisId
+  })
+  .done(function(data) {
+
+  // If there's a note in the article
+  if (data.note) {
+    // Place the title of the note in the title input
+    $("#titleinput").val(data.note.title);
+    // Place the body of the note in the body textarea
+    $("#note").val(data.note.body);
+
+    var deleteButton = $('<input type="button" class="btn btn-primary" value="Delete" id="notesDelete"> </input>').appendTo($('.modal-footer'));
+    $(deleteButton).attr('data-articleId',data._id);
+  }
+});
 
 })
 
